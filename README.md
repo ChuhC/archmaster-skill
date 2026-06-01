@@ -77,22 +77,28 @@ cp SKILL.md .github/copilot-instructions.md
 
 Copilot 会自动读取该文件作为 Skill 加载。
 
-### Windsurf / Augment / CodeBuddy / 其他 AI IDE
+### Claude Code
 
-这些工具同样支持通过项目级文件加载 Skill。将 SKILL.md 放到对应位置：
+Claude Code 原生支持 Skill：
 
 ```bash
-# Windsurf
-cp SKILL.md .windsurfrules
-
-# Augment / CodeBuddy  
-cp SKILL.md AGENTS.md
-
-# Claude Code
-cp SKILL.md CLAUDE.md
+mkdir -p .claude/skills/archmaster
+cp SKILL.md .claude/skills/archmaster/SKILL.md
 ```
 
-具体支持情况以各工具最新文档为准。
+对话中 `/archmaster` 激活。
+
+### Windsurf / Augment / CodeBuddy / 其他
+
+这些工具的 Skill 机制各有不同，建议查阅对应官方文档确认加载方式。常见做法是将 SKILL.md 放到项目级配置文件中：
+
+```bash
+# Windsurf（请以官方文档为准）
+cp SKILL.md .windsurfrules
+
+# Augment / CodeBuddy（请以官方文档为准）
+cp SKILL.md AGENTS.md
+```
 
 ### 通用方式（任何 AI 工具）
 
@@ -185,12 +191,12 @@ SKILL.md 使用 YAML frontmatter + Markdown 格式，不同工具对它的处理
 
 | 工具 | Skill 加载方式 |
 |------|---------------|
-| Cursor | 原生 Skill 机制（`.cursor/skills/`），完整解析 frontmatter |
-| Hermes Agent | 原生 Skill 机制（`~/.hermes/skills/`），完整解析 frontmatter |
-| Cline | 通过 `.clinerules` 等效加载，忽略 frontmatter |
+| Cursor | 原生 Skill 机制（`.cursor/skills/`） |
+| Claude Code | 原生 Skill 机制（`.claude/skills/`） |
+| Hermes Agent | 原生 Skill 机制（`~/.hermes/skills/`） |
+| Cline | 通过 `.clinerules` 等效加载 |
 | Copilot | 通过 `.github/copilot-instructions.md` 等效加载 |
-| Windsurf | 通过 `.windsurfrules` 等效加载 |
-| 其他工具 | 重命名为 `AGENTS.md` / `CLAUDE.md` 或直接粘贴 |
+| Windsurf / 其他 | 建议查阅官方文档确认 Skill 加载方式 |
 
 如果你使用的工具因 frontmatter 产生异常，删除 `---` 包裹的头部区域即可，不影响核心功能。
 

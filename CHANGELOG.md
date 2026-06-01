@@ -13,6 +13,8 @@
 - README: 兼容性表更新（Cursor 原生解析 Skills 机制）
 - README: Quick Start 示例更新为 Skill 路径
 - templates/: 抽取三个文档模板为独立文件（requirements / prd-sketch / architecture）
+- README: Claude Code 改为原生 Skill 目录（.claude/skills/）
+- README: Windsurf 等不确定的工具标注「请查阅官方文档」
 
 ### Changed
 - 定位从「Hermes Agent 专属 Skill」调整为「通用 AI 编码工具 Skill」
