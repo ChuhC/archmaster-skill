@@ -84,11 +84,24 @@ cp SKILL.md ~/.cline/skills/archmaster/SKILL.md
 
 ### GitHub Copilot
 
+GitHub Copilot 原生支持 Agent Skills 机制（支持在 Copilot 编码助手、VS Code 智能体模式及 CLI 中使用）。
+
+**项目级加载**（团队共享，通过版本控制）：
+
 ```bash
-cp SKILL.md .github/copilot-instructions.md
+mkdir -p .github/skills/archmaster
+cp SKILL.md .github/skills/archmaster/SKILL.md
 ```
 
-Copilot 会自动读取该文件作为 Skill 加载。
+**全局加载**（个人所有项目通用）：
+
+```bash
+# macOS / Linux
+mkdir -p ~/.copilot/skills/archmaster
+cp SKILL.md ~/.copilot/skills/archmaster/SKILL.md
+```
+
+> 如果你已经配置了 `.claude/skills/archmaster`，Copilot 会自动识别，无需重复配置。
 
 ### Claude Code
 
@@ -196,7 +209,7 @@ SKILL.md 使用 YAML frontmatter + Markdown 格式，不同工具对它的处理
 | Claude Code | 原生 Skill 机制（`.claude/skills/`） |
 | Hermes Agent | 原生 Skill 机制（`~/.hermes/skills/`） |
 | Cline | 原生 Skill 机制（`.cline/skills/`，需在设置中开启） |
-| Copilot | 通过 `.github/copilot-instructions.md` 等效加载 |
+| Copilot | 原生 Skill 机制（`.github/skills/` 或 `~/.copilot/skills/`） |
 | 其他工具 | 将 SKILL.md 全文粘贴到对话开头即可 |
 
 如果你使用的工具因 frontmatter 产生异常，删除 `---` 包裹的头部区域即可，不影响核心功能。
