@@ -82,8 +82,6 @@ mkdir -p ~/.cline/skills/archmaster
 cp SKILL.md ~/.cline/skills/archmaster/SKILL.md
 ```
 
-> 如果你使用的是不支持 Skills 的旧版本 Cline，可将 SKILL.md 重命名为 `.clinerules` 放到项目根目录作为等效加载。
-
 ### GitHub Copilot
 
 ```bash
