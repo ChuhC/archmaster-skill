@@ -47,7 +47,7 @@ mkdir -p .cursor/skills/archmaster
 cp SKILL.md .cursor/skills/archmaster/SKILL.md
 ```
 
-Cursor 会自动识别。对话中 `@archmaster` 激活，或直接描述需求触发。
+Cursor 会自动识别。对话中输入 `/archmaster` 激活，或直接描述需求触发。
 
 也可通过界面管理：Settings → Features → Skills → Add Skill。
 
