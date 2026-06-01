@@ -1,15 +1,17 @@
 # ArchMaster Skill
 
-> 渐进式架构设计 Skill（Interactive Architecture Mode）— 一个面向 Hermes Agent 的 AI 辅助架构设计技能包。
+> 渐进式架构设计 Skill（Interactive Architecture Mode）— 通用的 AI 辅助架构设计技能包，适用于 Hermes Agent、Cursor、Cline、Copilot 等主流 AI 编码工具。
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Hermes Agent](https://img.shields.io/badge/Hermes%20Agent-Skill-green)](https://hermes-agent.nousresearch.com)
+[![Platform](https://img.shields.io/badge/Platform-通用-orange)]()
 
 ---
 
 ## 简介 / Introduction
 
 **ArchMaster** 是一个帮助你与 AI 通过结构化对话，渐进式完成需求分析、PRD 规划、架构设计的 Skill。
+
+ArchMaster **不依赖特定 AI 工具** — 它本质上是一份精心设计的 Markdown 指令集（SKILL.md），你可以将其加载到任何支持自定义指令 / Rules / System Prompt 的 AI 编码工具中。
 
 借助 **SDD（Specification-Driven Development，规约驱动开发）** 的工程化思想，ArchMaster 帮你理清：
 
@@ -32,44 +34,119 @@
 
 ---
 
-## 安装 / Installation
+## 安装 / 各平台使用方式
 
-### 前置要求
+ArchMaster 的核心文件只有一个：**SKILL.md**。根据你使用的 AI 工具选择对应的加载方式。
 
-- [Hermes Agent](https://hermes-agent.nousresearch.com) 已安装并正常运行
-
-### 方式一：直接克隆
+### Hermes Agent
 
 ```bash
-# 克隆到 Hermes 的 skills 目录
+# 克隆到 skills 目录
 git clone https://github.com/ChuhC/archmaster-skill.git ~/.hermes/skills/archmaster
-```
 
-### 方式二：通过 Hermes CLI 安装（如支持）
-
-```bash
+# 或通过 CLI（如支持）
 hermes skills install https://github.com/ChuhC/archmaster-skill.git
 ```
 
-安装后重启 Hermes Agent 会话，Skill 自动加载。
+重启会话后自动加载。对话中输入「帮我设计一个 xxx 系统」即可触发。
+
+### Cursor
+
+**方式一：作为 Rule 文件（推荐）**
+
+将 `SKILL.md` 复制到项目的 `.cursor/rules/` 目录：
+
+```bash
+# 在项目根目录
+mkdir -p .cursor/rules
+cp SKILL.md .cursor/rules/archmaster.md
+```
+
+然后在 Cursor 设置 → Rules 中启用该规则。使用时在对话中 @ 引用该 rule，或直接说「按照 archmaster 规则帮我设计架构」。
+
+**方式二：作为全局 Rule**
+
+Cursor Settings → General → Rules for AI，将 `SKILL.md` 的内容粘贴进去。全局生效，适用于所有项目。
+
+### Cline (VS Code 扩展)
+
+**方式一：作为自定义指令**
+
+Cline 设置 → Custom Instructions，将 `SKILL.md` 的内容粘贴到「Custom Instructions」文本框中。之后每次对话都会加载这些指令。
+
+**方式二：作为 .clinerules 文件**
+
+```bash
+# 在项目根目录
+cp SKILL.md .clinerules
+```
+
+Cline 会自动读取项目根目录的 `.clinerules` 文件作为系统指令。
+
+### GitHub Copilot / Copilot Chat
+
+**方式一：项目级指令**
+
+```bash
+cp SKILL.md .github/copilot-instructions.md
+```
+
+Copilot 会自动读取该文件作为项目级指令。
+
+**方式二：VSCode 工作区设置**
+
+在 `.vscode/settings.json` 中配置：
+
+```json
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": ".github/copilot-instructions.md" }
+  ]
+}
+```
+
+### Windsurf / Augment / 其他 AI IDE
+
+大多数现代 AI IDE 都支持项目级规则文件。常见文件名：
+- `.cursorrules` / `.cursor/rules/*.md`
+- `.clinerules`
+- `.github/copilot-instructions.md`
+- `.windsurfrules`
+- `CLAUDE.md`（Claude Code）
+- `AGENTS.md`
+
+直接将 `SKILL.md` 的内容复制或重命名为上述文件名放到项目根目录即可。
+
+### 通用方式（任何 AI 工具）
+
+如果上述方式都不适用，最简单的方法是：**开启新对话时，直接粘贴 SKILL.md 的全部内容作为第一条消息**，然后接着描述你的项目需求。
+
+```
+（粘贴 SKILL.md 全文）
+
+---
+请按照以上规则，帮我设计一个 xxx 系统。
+```
 
 ---
 
 ## 快速开始 / Quick Start
 
-在 Hermes Agent 对话中，输入类似以下内容即可触发 ArchMaster：
+以 Cursor 为例，三步开始：
 
-```
-帮我设计一个 xxx 系统的架构
+```bash
+# 1. 在项目中创建 rules 目录
+mkdir -p .cursor/rules
+
+# 2. 下载 SKILL.md
+curl -o .cursor/rules/archmaster.md \
+  https://raw.githubusercontent.com/ChuhC/archmaster-skill/main/SKILL.md
+
+# 3. 在 Cursor 对话中说：
+# 「按照 archmaster 规则，我想做一个 xxx 系统，帮我开始需求分析」
 ```
 
-或者更直接：
-
-```
-激活 archmaster skill，我要做一个 xxx 项目
-```
-
-ArchMaster 会从 **Phase 1 Step A** 开始，逐步引导你完成整个设计流程。
+其他工具同理 — 本质都是把 SKILL.md 加载为 AI 的系统指令。
 
 ---
 
@@ -130,6 +207,21 @@ Phase 2: 系统架构设计
 
 ---
 
+## 兼容性说明
+
+SKILL.md 使用 YAML frontmatter + Markdown 格式。不同工具对 frontmatter 的处理：
+
+| 工具 | frontmatter 处理方式 |
+|------|---------------------|
+| Hermes Agent | 原生解析，读取 name/description/metadata |
+| Cursor / Cline | 通常忽略 frontmatter，当作正文的一部分 |
+| Copilot | 忽略 YAML，读取全部 Markdown 内容 |
+| 通用粘贴 | 全部作为对话上下文读入 |
+
+frontmatter 中的元数据不影响核心指令的生效。如果你使用的工具因 frontmatter 产生异常，删除 `---` 包裹的头部区域即可，不影响功能。
+
+---
+
 ## 贡献 / Contributing
 
 欢迎提交 Issue 和 Pull Request！
@@ -140,7 +232,9 @@ Phase 2: 系统架构设计
 4. 推送到远程 (`git push origin feature/amazing-improvement`)
 5. 创建 Pull Request
 
-如果你在使用中发现问题或有改进建议，也欢迎在 [Issues](https://github.com/ChuhC/archmaster-skill/issues) 中讨论。
+特别欢迎：
+- 补充在其他 AI 工具（Windsurf、Augment、CodeBuddy 等）上的实测经验
+- 提交兼容性问题或改进建议
 
 ---
 
@@ -155,10 +249,3 @@ Phase 2: 系统架构设计
 **ChuhC** — [GitHub](https://github.com/ChuhC)
 
 - 原始 Gist: [archMaster](https://gist.github.com/ChuhC/25d2b4c662cd0b7442dfd6b3999cb765)
-
----
-
-## 致谢 / Acknowledgments
-
-- [Hermes Agent](https://hermes-agent.nousresearch.com) — 强大的 AI Agent 平台
-- [SEI ATAM](https://resources.sei.cmu.edu/library/asset-view.cfm?assetid=5177) — 架构权衡分析方法论
