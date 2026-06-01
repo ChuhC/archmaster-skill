@@ -52,21 +52,28 @@ hermes skills install https://github.com/ChuhC/archmaster-skill.git
 
 ### Cursor
 
-**方式一：作为 Rule 文件（推荐）**
+**方式一：作为 Skill（推荐）**
 
-将 `SKILL.md` 复制到项目的 `.cursor/rules/` 目录：
+Cursor 原生支持 Skill 机制，格式和 SKILL.md 完全兼容。将 `SKILL.md` 放到项目的 skills 目录：
 
 ```bash
 # 在项目根目录
+mkdir -p .cursor/skills/archmaster
+cp SKILL.md .cursor/skills/archmaster/SKILL.md
+```
+
+Cursor 会自动识别。对话中通过 `@archmaster` 即可激活，或者直接描述需求（如「帮我设计一个 xxx 系统」），Skill 会按规则触发。
+
+也可以通过 Cursor 设置界面管理：Settings → Features → Skills → Add Skill。
+
+**方式二：作为 Rule 文件**
+
+```bash
 mkdir -p .cursor/rules
 cp SKILL.md .cursor/rules/archmaster.md
 ```
 
-然后在 Cursor 设置 → Rules 中启用该规则。使用时在对话中 @ 引用该 rule，或直接说「按照 archmaster 规则帮我设计架构」。
-
-**方式二：作为全局 Rule**
-
-Cursor Settings → General → Rules for AI，将 `SKILL.md` 的内容粘贴进去。全局生效，适用于所有项目。
+然后在 Cursor 设置 → Rules 中启用。使用时在对话中 @ 引用该 rule。
 
 ### Cline (VS Code 扩展)
 
@@ -135,15 +142,16 @@ Copilot 会自动读取该文件作为项目级指令。
 以 Cursor 为例，三步开始：
 
 ```bash
-# 1. 在项目中创建 rules 目录
-mkdir -p .cursor/rules
+# 1. 在项目中创建 skills 目录
+mkdir -p .cursor/skills/archmaster
 
-# 2. 下载 SKILL.md
-curl -o .cursor/rules/archmaster.md \
+# 2. 下载 SKILL.md 作为 Skill
+curl -o .cursor/skills/archmaster/SKILL.md \
   https://raw.githubusercontent.com/ChuhC/archmaster-skill/main/SKILL.md
 
 # 3. 在 Cursor 对话中说：
-# 「按照 archmaster 规则，我想做一个 xxx 系统，帮我开始需求分析」
+# 「我想做一个 xxx 系统，帮我开始需求分析」
+# 或 @archmaster 显式激活
 ```
 
 其他工具同理 — 本质都是把 SKILL.md 加载为 AI 的系统指令。
@@ -214,7 +222,8 @@ SKILL.md 使用 YAML frontmatter + Markdown 格式。不同工具对 frontmatter
 | 工具 | frontmatter 处理方式 |
 |------|---------------------|
 | Hermes Agent | 原生解析，读取 name/description/metadata |
-| Cursor / Cline | 通常忽略 frontmatter，当作正文的一部分 |
+| Cursor | 原生解析（Skills 机制，格式兼容） |
+| Cline | 通常忽略 frontmatter，当作正文的一部分 |
 | Copilot | 忽略 YAML，读取全部 Markdown 内容 |
 | 通用粘贴 | 全部作为对话上下文读入 |
 
