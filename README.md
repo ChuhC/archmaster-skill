@@ -160,6 +160,8 @@ Phase 2: 系统架构设计
 | 架构文档 | `docs/architecture/architecture.md` | Phase 2 |
 | 架构视图 | `docs/architecture/images/*.png` | Phase 2 |
 
+> 💡 `templates/` 目录中提供了上述三个文档的空白模板，可直接复制到项目中使用。
+
 ---
 
 ## 核心规则 / Core Rules
