@@ -88,18 +88,6 @@ cp SKILL.md .claude/skills/archmaster/SKILL.md
 
 对话中 `/archmaster` 激活。
 
-### Windsurf / Augment / CodeBuddy / 其他
-
-这些工具的 Skill 机制各有不同，建议查阅对应官方文档确认加载方式。常见做法是将 SKILL.md 放到项目级配置文件中：
-
-```bash
-# Windsurf（请以官方文档为准）
-cp SKILL.md .windsurfrules
-
-# Augment / CodeBuddy（请以官方文档为准）
-cp SKILL.md AGENTS.md
-```
-
 ### 通用方式（任何 AI 工具）
 
 如果以上方式都不适用：开启新对话时，将 SKILL.md 全文粘贴作为第一条消息，然后接着描述项目需求即可。
@@ -196,7 +184,7 @@ SKILL.md 使用 YAML frontmatter + Markdown 格式，不同工具对它的处理
 | Hermes Agent | 原生 Skill 机制（`~/.hermes/skills/`） |
 | Cline | 通过 `.clinerules` 等效加载 |
 | Copilot | 通过 `.github/copilot-instructions.md` 等效加载 |
-| Windsurf / 其他 | 建议查阅官方文档确认 Skill 加载方式 |
+| 其他工具 | 将 SKILL.md 全文粘贴到对话开头即可 |
 
 如果你使用的工具因 frontmatter 产生异常，删除 `---` 包裹的头部区域即可，不影响核心功能。
 
